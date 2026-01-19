@@ -8,8 +8,8 @@ Add to your `packages.yml`:
 
 ```yaml
 packages:
-  - package: paradime-io/dbt_llm_evals
-    version: [">=1.0.0", "<2.0.0"]
+  - git: "https://github.com/paradime-io/dbt-llm-evals.git"
+    revision: 1.0.0
 ```
 
 Run:

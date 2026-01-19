@@ -1,0 +1,6 @@
+ticket_id,customer_id,customer_name,customer_question,ticket_category,ticket_priority,customer_tier,previous_interaction_count,status
+101,C001,Alice Johnson,"How do I reset my password?",Account Access,High,Gold,5,pending_ai_response
+102,C002,Bob Smith,"The app crashes when I open the dashboard.",Technical Issue,Critical,Platinum,12,pending_ai_response
+103,C003,Charlie Brown,"What are your shipping rates to Canada?",Billing & Shipping,Medium,Silver,2,pending_ai_response
+104,C004,Diana Prince,"I want to upgrade my subscription.",Billing,Low,Gold,8,pending_ai_response
+105,C005,Evan Wright,"Can I bulk export my data via API?",Technical Support,Medium,Silver,1,pending_ai_response

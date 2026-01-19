@@ -1,0 +1,73 @@
+version: 2
+
+models:
+  - name: llm_evals__judge_evaluations
+    description: "Core evaluation model that uses warehouse AI functions to evaluate captured outputs. Runs incrementally on pending captures."
+    columns:
+      - name: eval_id
+        description: "Unique identifier for each evaluation"
+        tests:
+          - unique
+          - not_null
+      - name: capture_id
+        description: "Reference to the capture being evaluated"
+        tests:
+          - not_null
+      - name: source_model
+        description: "The dbt model that generated the output"
+      - name: criterion
+        description: "The evaluation criterion (accuracy, relevance, etc.)"
+        tests:
+          - not_null
+      - name: judge_model
+        description: "The AI model used as judge"
+      - name: score
+        description: "Evaluation score (1-10)"
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 10
+              inclusive: true
+              where: "score is not null"
+      - name: reasoning
+        description: "Judge's explanation for the score"
+      - name: confidence
+        description: "Judge's confidence in the evaluation (0.0-1.0)"
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+              inclusive: true
+              where: "confidence is not null"
+      - name: needs_review
+        description: "Flag indicating if this evaluation needs human review"
+      - name: eval_result
+        description: "Result category: pass, warn, fail, parse_error"
+      - name: judge_prompt
+        description: "The full prompt sent to the judge"
+      - name: judge_response
+        description: "Raw response from the judge"
+      - name: evaluated_at
+        description: "Timestamp of evaluation"
+        
+  - name: llm_evals__eval_scores
+    description: "Flattened view of evaluation scores joined with capture data for easier querying"
+    columns:
+      - name: eval_id
+        description: "Unique identifier for each evaluation"
+      - name: capture_id
+        description: "Reference to the capture"
+      - name: source_model
+        description: "The dbt model that generated the output"
+      - name: input_data
+        description: "The input used to generate the output"
+      - name: output_data
+        description: "The AI-generated output"
+      - name: criterion
+        description: "The evaluation criterion"
+      - name: score
+        description: "Evaluation score (1-10)"
+      - name: reasoning
+        description: "Judge's explanation"
+      - name: eval_result
+        description: "Result category: pass, warn, fail, parse_error"

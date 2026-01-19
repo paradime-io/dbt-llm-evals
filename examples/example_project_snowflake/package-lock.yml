@@ -1,0 +1,7 @@
+packages:
+  - local: ../../
+    name: dbt_llm_evals
+  - name: dbt_utils
+    package: dbt-labs/dbt_utils
+    version: 1.3.3
+sha1_hash: daa9fd6d4e7b1f0cf434b904f7f247f087ab19a3

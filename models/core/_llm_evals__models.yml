@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: llm_evals__setup
+    description: "Setup model that creates the necessary raw storage tables. Run this once before using the package."
+    
+  - name: llm_evals__captures
+    description: "Incremental model containing all captured inputs and outputs from AI models being evaluated"
+    columns:
+      - name: capture_id
+        description: "Unique identifier for each capture"
+        tests:
+          - unique
+          - not_null
+      - name: source_model
+        description: "The dbt model that generated this AI output"
+        tests:
+          - not_null
+      - name: input_data
+        description: "JSON/struct containing the input columns used to generate the output"
+      - name: output_data
+        description: "The AI-generated output text"
+      - name: captured_at
+        description: "Timestamp when this output was captured"
+      - name: eval_status
+        description: "Status of evaluation: pending, completed"
+      - name: evaluated_at
+        description: "Timestamp when evaluation was completed"
+        
+  - name: llm_evals__baselines
+    description: "Baseline samples used for comparison and consistency evaluation"
+    columns:
+      - name: baseline_id
+        description: "Unique identifier for each baseline sample"
+      - name: source_model
+        description: "The dbt model this baseline is for"
+      - name: baseline_input
+        description: "Sample input from baseline"
+      - name: baseline_output
+        description: "Sample output from baseline"
+      - name: is_active
+        description: "Whether this baseline is currently active"
+      - name: baseline_created_at
+        description: "When this baseline was created"
+        
+  - name: llm_evals__registry
+    description: "Registry of all models being evaluated with their current status"
+    columns:
+      - name: source_model
+        description: "The dbt model being evaluated"
+        tests:
+          - unique
+          - not_null
+      - name: baseline_sample_count
+        description: "Number of baseline samples"
+      - name: has_active_baseline
+        description: "Whether an active baseline exists"
+      - name: total_captures
+        description: "Total number of captures"
+      - name: evaluated_count
+        description: "Number of evaluated captures"
+      - name: pending_count
+        description: "Number of pending evaluations"
+      - name: status
+        description: "Overall status: active, baseline_only, no_baseline, inactive"

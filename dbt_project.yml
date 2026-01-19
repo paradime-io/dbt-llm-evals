@@ -1,0 +1,77 @@
+name: 'dbt_llm_evals'
+version: '1.0.0'
+config-version: 2
+
+require-dbt-version: [">=1.6.0", "<2.0.0"]
+
+profile: 'dbt_llm_evals'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+  - "logs"
+
+# Package variables with sensible defaults
+vars:
+  # --- Storage Configuration ---
+  # Schema Configuration - OPTIONAL: Controls where raw_captures and raw_baselines tables are created
+  # llm_evals_schema: 'llm_evals'
+
+  # --- General Evaluation Settings ---
+  llm_evals_criteria: '["accuracy", "relevance", "tone"]'
+  llm_evals_sampling_rate: 0.1
+  llm_evals_batch_size: 1000
+  llm_evals_pass_threshold: 7
+  llm_evals_warn_threshold: 5
+
+  # --- Baseline & Drift ---
+  llm_evals_baseline_sample_size: 100
+  llm_evals_baseline_refresh_days: 30
+  llm_evals_drift_stddev_threshold: 2
+  llm_evals_drift_lookback_days: 7
+
+  # --- Warehouse Specific Defaults ---
+  # Users should override these in their own dbt_project.yml
+  
+  # Snowflake Cortex Defaults
+  # llm_evals_judge_model: 'llama3-70b' # REQUIRED: Override with your model
+  llm_evals_judge_temperature: 0.0
+  llm_evals_judge_max_tokens: 500
+  
+  # BigQuery Vertex Defaults
+  gcp_project_id: '' # REQUIRED if using BigQuery
+  # gcp_location: 'us-central1' # REQUIRED if using BigQuery
+  # llm_evals_dataset: 'llm_models' # REQUIRED if using BigQuery
+
+# Model configurations
+models:
+  dbt_llm_evals:
+    +database: "{{ target.database }}"
+    
+    core:
+      +materialized: incremental
+      +on_schema_change: append_new_columns
+      +tags: ['llm_evals', 'core']
+      
+    evaluation:
+      +materialized: incremental
+      +on_schema_change: append_new_columns
+      +tags: ['llm_evals', 'evaluation']
+      
+    monitoring:
+      +materialized: table
+      +tags: ['llm_evals', 'monitoring', 'reporting']
+
+# Dispatch configuration for multi-warehouse support
+dispatch:
+  - macro_namespace: dbt_llm_evals
+    search_order: 
+      - dbt_llm_evals
+      - dbt

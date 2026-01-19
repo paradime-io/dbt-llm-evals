@@ -1,0 +1,100 @@
+version: 2
+
+models:
+  - name: llm_evals__performance_summary
+    description: "Daily aggregated performance metrics for all evaluated models and criteria"
+    columns:
+      - name: eval_date
+        description: "Date of evaluations"
+      - name: source_model
+        description: "The dbt model being evaluated"
+      - name: criterion
+        description: "The evaluation criterion"
+      - name: total_evaluations
+        description: "Total number of evaluations"
+      - name: avg_score
+        description: "Average score for the day"
+      - name: pass_rate
+        description: "Percentage of evaluations that passed"
+      - name: pass_count
+        description: "Number of passing evaluations"
+      - name: warn_count
+        description: "Number of warning evaluations"
+      - name: fail_count
+        description: "Number of failing evaluations"
+      - name: avg_confidence
+        description: "Average judge confidence"
+      - name: needs_review_count
+        description: "Number of evaluations flagged for review"
+      - name: health_status
+        description: "Overall health: excellent, good, fair, poor"
+        
+  - name: llm_evals__drift_detection
+    description: "Drift detection comparing recent performance against baseline. Alerts on significant changes."
+    columns:
+      - name: source_model
+        description: "The dbt model being monitored"
+      - name: criterion
+        description: "The evaluation criterion"
+      - name: baseline_avg_score
+        description: "Historical average score"
+      - name: recent_avg_score
+        description: "Recent average score"
+      - name: score_drift
+        description: "Difference between recent and baseline"
+      - name: drift_in_stddevs
+        description: "Drift measured in standard deviations"
+      - name: drift_status
+        description: "Status: OK, WARNING, ALERT, insufficient_baseline, insufficient_recent_data"
+      - name: anomaly_type
+        description: "Type of anomaly detected if any"
+      - name: pct_change
+        description: "Percentage change from baseline"
+      - name: drift_message
+        description: "Human-readable drift description"
+        
+  - name: llm_evals__alerts
+    description: "Consolidated alerts from all monitoring checks requiring attention"
+    columns:
+      - name: alert_id
+        description: "Unique identifier for the alert"
+      - name: source_model
+        description: "The dbt model with the alert"
+      - name: criterion
+        description: "The evaluation criterion"
+      - name: alert_type
+        description: "Type: drift_detection, low_pass_rate, low_confidence, parse_errors"
+      - name: severity
+        description: "Severity: ALERT, WARNING"
+      - name: message
+        description: "Alert description"
+      - name: metric_value
+        description: "The metric value that triggered the alert"
+      - name: priority
+        description: "Priority for triage (1=highest)"
+      - name: recommended_action
+        description: "Suggested next steps to address the alert"
+
+  - name: llm_evals__capture_status
+    description: "Joined view of captures and their evaluation status. Useful for tracking what is pending vs completed."
+    columns:
+      - name: capture_id
+        description: "Unique identifier for the capture"
+      - name: source_model
+        description: "The dbt model that generated the capture"
+      - name: captured_at
+        description: "Timestamp when the data was captured"
+      - name: eval_status
+        description: "Status: 'pending' (no evaluations) or 'completed' (evaluated)"
+      - name: evaluation_count
+        description: "Number of times this capture has been evaluated"
+      - name: avg_score
+        description: "Average score across all evaluations for this capture"
+      - name: min_score
+        description: "Lowest score received"
+      - name: max_score
+        description: "Highest score received"
+      - name: input_data
+        description: "The raw input data sent to the LLM"
+      - name: output_data
+        description: "The raw output data received from the LLM"

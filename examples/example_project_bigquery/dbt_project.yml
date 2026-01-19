@@ -1,0 +1,52 @@
+# Example dbt_project.yml showing how to configure dbt_llm_evals
+# This would be in your main project, not the package
+
+name: 'example_project_bigquery'
+version: '1.0.0'
+config-version: 2
+
+profile: 'default_bigquery'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+vars:
+  # ===== dbt_llm_evals Configuration =====
+  
+  # Judge Model (warehouse-specific)
+  llm_evals_judge_model: 'gemini-2.5-flash'
+  
+  # Evaluation Criteria
+  llm_evals_criteria: '["accuracy", "relevance", "tone", "helpfulness"]'
+  
+  # Sampling - evaluate 10% by default, override per model
+  llm_evals_sampling_rate: 0.1
+  
+  # Thresholds
+  llm_evals_pass_threshold: 7  # Score >= 7 is pass
+  llm_evals_warn_threshold: 5  # Score 5-6 is warning
+  
+  # Drift Detection
+  llm_evals_drift_stddev_threshold: 2
+  llm_evals_drift_lookback_days: 7
+  
+  # BigQuery specific
+  gcp_project_id: "{{ env_var('GCP_PROJECT_ID') }}"
+  gcp_location: "{{ env_var('GCP_LOCATION') }}"
+  ai_connection_id: "{{ env_var('AI_CONNECTION_ID') }}"
+  ai_endpoint: "{{ env_var('AI_ENDPOINT') }}"
+  llm_evals_dataset: "llm_models"
+
+models:
+  dbt_llm_evals:
+    ## dbt_llm_evals models will be created in schema '<your_schema>_llm_evals' when using dev target
+    +schema: "llm_evals"
+  
+  example_project_bigquery:
+    # Apply evaluations to all AI models
+    ai_examples:
+      +schema: ai_examples

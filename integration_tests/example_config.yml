@@ -1,0 +1,82 @@
+# Example dbt_project.yml configuration for using dbt_llm_evals
+
+# Add this to your project's dbt_project.yml
+
+vars:
+  # === LLM Evals Configuration ===
+  
+  # Storage
+  llm_evals_schema: 'llm_evals'  # Schema where eval data is stored
+  
+  # Judge Model Configuration
+  llm_evals_judge_model: 'llama3-70b'  # For Snowflake Cortex
+  # llm_evals_judge_model: 'gemini-pro'  # For BigQuery
+  # llm_evals_judge_model: 'llama-2-70b-chat'  # For Databricks
+  
+  llm_evals_judge_temperature: 0.0  # Lower = more consistent
+  llm_evals_judge_max_tokens: 500
+  
+  # Evaluation Criteria (JSON array as string)
+  llm_evals_criteria: '["accuracy", "relevance", "tone", "helpfulness"]'
+  
+  # Sampling Configuration
+  llm_evals_sampling_rate: 0.1  # Evaluate 10% of outputs (1.0 = 100%)
+  llm_evals_batch_size: 1000  # Max evaluations per run
+  
+  # Scoring Thresholds
+  llm_evals_pass_threshold: 7  # Score >= 7 is "pass"
+  llm_evals_warn_threshold: 5  # Score 5-6 is "warn"
+  
+  # Baseline Configuration
+  llm_evals_baseline_sample_size: 100  # Number of samples in baseline
+  llm_evals_baseline_refresh_days: 30  # Re-baseline every N days
+  
+  # Drift Detection
+  llm_evals_drift_stddev_threshold: 2  # Alert if drift > 2 std devs
+  llm_evals_drift_lookback_days: 7  # Compare last 7 days to baseline
+  
+  # BigQuery-specific (only if using BigQuery)
+  gcp_project_id: 'your-project-id'
+  gcp_location: 'us-central1'
+  llm_evals_dataset: 'llm_models'
+
+# Model Configuration
+models:
+  your_project:
+    # Apply to all AI models
+    ai_models:
+      +post-hook: "{{ llm_evals.capture_and_evaluate() }}"
+      
+      # Example: Product descriptions model
+      product_descriptions:
+        +meta:
+          llm_evals:
+            enabled: true
+            baseline_mode: false  # Set to true for first run to create baseline
+            input_columns: 
+              - product_name
+              - category
+              - features
+            output_column: 'ai_description'
+            sampling_rate: 1.0  # Override: evaluate 100% for this model
+      
+      # Example: Customer support responses
+      support_responses:
+        +meta:
+          llm_evals:
+            enabled: true
+            baseline_mode: false
+            input_columns:
+              - customer_question
+              - ticket_history
+            output_column: 'ai_response'
+            sampling_rate: 0.2  # Evaluate 20% of responses
+
+# Seeds (optional - for custom criteria definitions)
+seeds:
+  your_project:
+    eval_criteria_custom:
+      +schema: llm_evals
+      +column_types:
+        criterion_name: varchar(100)
+        description: varchar(500)

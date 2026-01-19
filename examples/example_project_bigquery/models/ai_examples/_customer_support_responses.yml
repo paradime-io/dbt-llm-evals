@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: customer_support_responses
+    config:
+      materialized: table
+      post_hook: "{{ dbt_llm_evals.capture_and_evaluate() }}"
+      meta:
+        llm_evals:
+          enabled: true
+          baseline_version: 'v1.0'  # Baseline for drift detection - change to `v2.0` after significant updates to create a new baseline
+          input_columns:
+            - customer_question
+            - customer_context
+            - ticket_category
+          output_column: 'ai_response'
+          prompt: >-
+            You are a helpful customer support agent. 
+            Respond to this customer question professionally and helpfully.
+            Customer Context: {customer_context}
+            Category: {ticket_category}
+            Question: {customer_question}
+            Response:
+          sampling_rate: 0.2  # Evaluate 20% of responses

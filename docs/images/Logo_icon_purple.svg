@@ -1,0 +1,20 @@
+<svg width="52" height="39" viewBox="0 0 52 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.872627 19.8399C-0.203892 18.2063 0.907261 16.102 2.8727 16.0521L20.3679 15.6082C22.3333 15.5583 23.679 17.6003 22.79 19.2837L14.8774 34.2686C13.9885 35.952 11.5317 36.0144 10.4552 34.3808L0.872627 19.8399Z" fill="url(#paint0_angular_838_34301)"/>
+<path d="M35.668 17.4001L13.9357 5.08464C11.5585 3.7375 8.60543 5.44996 8.61909 8.16773L8.74391 33.0134C8.75758 35.7354 11.7326 37.4162 14.0933 36.0472L35.7008 23.5171C38.0616 22.1481 38.0489 18.7494 35.668 17.4001Z" fill="url(#paint1_angular_838_34301)" stroke="white" stroke-width="1.07286"/>
+<path d="M45.9405 31.8724L29.1442 2.98581C27.6932 0.490342 24.069 0.490338 22.618 2.9858L5.82181 31.8724C4.36639 34.3755 6.18952 37.4929 9.08491 37.4929H42.6774C45.5727 37.4929 47.3959 34.3755 45.9405 31.8724Z" fill="url(#paint2_angular_838_34301)" stroke="white" stroke-width="1.07286"/>
+<defs>
+<radialGradient id="paint0_angular_838_34301" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(12.0394 23.2388) rotate(27.5021) scale(15.3201 14.7294)">
+<stop offset="0.435554" stop-color="#AAA4FF"/>
+<stop offset="0.574582" stop-color="#9991FF"/>
+</radialGradient>
+<radialGradient id="paint1_angular_838_34301" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(11.054 23.6719) rotate(-46.6276) scale(15.69 15.6967)">
+<stop offset="0.872025" stop-color="#9992FF"/>
+<stop offset="0.977096" stop-color="#7F76FF"/>
+</radialGradient>
+<radialGradient id="paint2_angular_838_34301" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(4.11132 35.3666) rotate(31.4584) scale(48.6928 48.537)">
+<stop offset="0.740926" stop-color="#7F76FF"/>
+<stop offset="0.783397" stop-color="#6C62FF"/>
+<stop offset="0.84375" stop-color="#584CFF"/>
+</radialGradient>
+</defs>
+</svg>

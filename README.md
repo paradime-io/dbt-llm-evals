@@ -1,5 +1,5 @@
 <p align="center">
-<img alt="Paradime.io Logo" src="banner.png">
+<img alt="Paradime.io Logo" src="https://20146536.fs1.hubspotusercontent-na1.net/hubfs/20146536/paradime-dbt-llm-evals.png">
 </p>
 
 <p align="center">
@@ -97,8 +97,8 @@ Add to your `packages.yml`:
 
 ```yaml
 packages:
-  - git: "https://github.com/paradime-io/dbt-llm-evals.git"
-    revision: 1.0.0
+  - package: paradime-io/dbt_llm_evals
+    version: 1.0.0
 ```
 
 Or install from git for development versions:

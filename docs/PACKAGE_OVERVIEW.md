@@ -73,7 +73,7 @@ Add to your `packages.yml`:
 ```yaml
 packages:
   - git: "https://github.com/paradime-io/dbt-llm-evals.git"
-    revision: 1.0.0
+    revision: 1.0.1
 ```
 
 ### 2. Run Setup

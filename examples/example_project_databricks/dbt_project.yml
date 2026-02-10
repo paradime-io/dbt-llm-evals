@@ -2,7 +2,7 @@
 # This would be in your main project, not the package
 
 name: 'example_project_databricks'
-version: '1.0.0'
+version: '1.0.1'
 config-version: 2
 
 profile: 'default_databricks'

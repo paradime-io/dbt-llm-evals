@@ -94,7 +94,7 @@ Add to your `packages.yml`:
 ```yaml
 packages:
   - package: paradime-io/dbt_llm_evals
-    version: 1.0.0
+    version: 1.0.1
 ```
 
 Or install from git for development versions:

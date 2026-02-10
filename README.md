@@ -74,21 +74,17 @@ This approach is cost-effective, scalable, and runs entirely within your data wa
 ## How It Works
 
 ```mermaid
----
-config:
-  look: handDrawn
----
 flowchart LR
     A[1. Run AI Model<br/>dbt run --select your_model] --> B[2. Post-Hook Captures<br/>Input + Output + Prompt]
-    B --> C[3. Run Evaluations<br/>dbt run --select tag:llm_evals] 
+    B --> C[3. Run Evaluations<br/>dbt run --select tag:llm_evals]
     C --> D[4. Judge Analyzes<br/>Against Baselines]
     D --> E[5. Store Scores<br/>& Generate Reports]
-    
-    style A fill:#e1f5fe
-    style B fill:#fff3e0
-    style C fill:#ffeaa7
-    style D fill:#fab1a0
-    style E fill:#e8f5e8
+
+    style A fill:#1565c0,stroke:#0d47a1,color:#ffffff
+    style B fill:#e65100,stroke:#bf360c,color:#ffffff
+    style C fill:#f9a825,stroke:#f57f17,color:#000000
+    style D fill:#c62828,stroke:#b71c1c,color:#ffffff
+    style E fill:#2e7d32,stroke:#1b5e20,color:#ffffff
 ```
 
 ## Installation
